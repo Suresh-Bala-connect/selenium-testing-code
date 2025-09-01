@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login & Register with Drag & Drop</title>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        width: 350px;
+        margin: 80px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px #aaa;
+        border-radius: 10px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    input[type="radio"], input[type="checkbox"] {
+        width: auto;
+        margin-right: 5px;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background: #28a745;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #218838;
+    }
+    #registerForm, #dragDropSection {
+        display: none;
+    }
+
+    /* Drag & Drop (jQuery UI) */
+    #dragDropSection {
+        margin-top: 20px;
+        padding: 10px;
+    }
+    #container {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+    #draggable {
+        width: 120px;
+        height: 100px;
+        padding: 0.5em;
+        background: #fff;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 100px;
+        cursor: move;
+    }
+    #droppable {
+        width: 150px;
+        height: 150px;
+        padding: 0.5em;
+        background: #e5e5e5;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 150px;
+    }
+    #droppable.ui-state-highlight {
+        background: #d2ffd2;
+        border: 2px dashed #4CAF50;
+    }
+</style>
+</head>
+<body>
+
+<div class="container" id="loginForm">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+</div>
+
+<div class="container" id="registerForm">
+    <h2>Register</h2>
+    <input type="text" placeholder="Full Name" required>
+    <input type="email" placeholder="Email" required>
+    <input type="number" placeholder="Phone Number" required>
+
+    <label>Gender:</label><br>
+    <input type="radio" name="gender"> Male
+    <input type="radio" name="gender"> Female
+    <input type="radio" name="gender"> Other<br><br>
+
+    <label>Department:</label>
+    <select>
+        <option>IT</option>
+        <option>HR</option>
+        <option>Finance</option>
+        <option>Marketing</option>
+    </select>
+
+    <label>Upload Resume:</label>
+    <input type="file" id="resumeFile">
+
+    <label>Accept Terms:</label>
+    <input type="checkbox" required> I agree
+
+    <label>Search:</label>
+    <input type="search" placeholder="Search here...">
+
+    <button onclick="submitForm()">Submit</button>
+
+    <!-- jQuery UI Drag and Drop -->
+    <!-- <div id="dragDropSection">
+        <h3>Drag & Drop Example</h3>
+        <div id="container">
+            <div id="draggable">Drag me to my target</div>
+            <div id="droppable">Drop here</div>
+        </div>
+    </div> -->
+    <div id="dragDropSection">
+    <h3>Drag & Drop Demo</h3>
+    <div id="draggable" draggable="true" style="width:100px; height:100px; background:red;">
+        Drag me
+    </div>
+    <div id="droppable" style="width:200px; height:200px; background:blue; margin-top:20px;">
+        Drop here
+    </div>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script>
+    function login() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("dragDropSection").style.display = "block";
+    }
+
+    function submitForm() {
+        let fileInput = document.getElementById("resumeFile");
+        if (fileInput.files.length === 0) {
+            alert("Please upload your resume.");
+        } else {
+            alert("Form submitted successfully!");
+        }
+    }
+
+    $(function() {
+        $("#draggable").draggable();
+        $("#droppable").droppable({
+            accept: "#draggable",
+            drop: function(event, ui) {
+                $(this)
+                    .addClass("ui-state-highlight")
+                    .html("Dropped!");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
